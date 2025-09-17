@@ -83,11 +83,11 @@ def main():
         return
     k = int(k_str)
 
-    for p in paths:
+    for j in paths:
         try:
-            run_each(p, k)
+            run_each(j, k)
         except FileNotFoundError:
-            print(f"\n{p} not found.")
+            print(f"\n{j} not found.")
 
 if __name__ == "__main__":
     main()
