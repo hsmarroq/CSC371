@@ -1,4 +1,4 @@
-import sys
+import os
 
 def add_once(i, item):
     if item not in i:
@@ -69,19 +69,17 @@ def run_each(path, k):
     print(f"A^{k} =", display_set(power(A, k)))
 
 def main():
-    paths = sys.argv[1:]
-    if not paths:
-        line = input("Enter .txt paths separated each with space: ").strip()
-        paths = line.split() if line else []
-    if not paths:
-        print("No files.")
-        return
-
-    k_str = input("Enter k (0 or more): ").strip()
-    if not k_str.isdigit():
-        print("k must be 0 or more.")
-        return
-    k = int(k_str)
+    paths = []
+    for txt in ("0.txt", "1.txt"):
+        if os.path.exists(txt):
+            paths.append(txt)
+            
+    while True:
+        k_val = input("Enter a natural number for k: ").strip()
+        if k_val.isdigit():
+            k = int(k_val)
+            break
+        print("k input invalid.")
 
     for j in paths:
         try:
