@@ -1,6 +1,11 @@
 import os
 
 def run(path):
+  print("Input:")
+  for line in open(path):
+    print(line.rstrip("\n"))
+  print("\nOutput:")
+
   outs = {}
   for line in open(path):
     a, b = line.strip().split(",", 1)
@@ -16,22 +21,26 @@ def run(path):
           vals.append(int(x))
       outs[a] = vals
 
+  rest = []
   for t in outs.values():
     for j in t:
-      if j not in outs:
-        outs[j] = []
+      if j not in outs and j not in rest:
+        rest.append(j)
+  
+  for j in rest:
+    outs[j] = []
 
   states = sorted(outs)
 
-  def fill(t, k):
+  def close(t, k):
     if t not in k:
       k.append(t)
       for j in outs[t]:
-        fill(j, k)
+        close(j, k)
 
   for s in states:
     k = []
-    fill(s, k)
+    close(s, k)
     k.sort()
 
     result = ""
@@ -42,10 +51,16 @@ def run(path):
     print("E(" + str(s) + ") = {" + result + "}")
 
 def main():
-  for name in sorted(n for n in os.listdir(".") if n.endswith(".txt")):
+  files = []
+  for n in os.listdir("."):
+    if n.endswith(".txt"):
+      files.append(n)
+  files.sort()
+
+  for name in files:
     print(f"=== {name} ===")
     run(name)
     print()
-
+      
 if __name__ == "__main__":
   main()
